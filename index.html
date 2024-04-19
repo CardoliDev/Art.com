@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="blá bla blá">
+    <title>Art.Com</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <header class="cabecalho">
+        <nav class="cabecalho-menu">
+          <!--<button class="cabecalho-menu-item">Perfil</button>-->  
+          <a href="https://prosas.com.br/editais" target="_blank"><button class="cabecalho-menu-item">Editais</button></a> 
+            <button class="cabecalho-menu-item">Ajuda</button>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+        <section class="conteudo-principal">
+            <div class="conteudo-principal-escrito">
+                <h1 class="conteudo-principal-escrito-titulo">Art.Com</h1>
+                <h2 class="conteudo-principal-escrito-subtitulo">Cadastre-se agora para ter acesso às nossas opções.</h2>
+                <form action="" class="logar">
+                    <label for="email">E-mail de login: *</label>
+                    <input type="email" id="email" name="email" required>
+                
+                    <label for="senha">Senha: *</label>
+                    <div class="senha-container">
+                        <input type="password" id="senha" name="senha" required>
+                        <button type="button" id="mostrarSenha" onclick="toggleSenha()">Mostrar senha</button>
+                    </div>
+                </form>
+                <div id="botao"> 
+                    <a href="perfil.html"><button class="conteudo-principal-escrito-botao">Entrar</button></a>
+                    <a href="cadastro.html" target="_blank"><button class="conteudo-principal-escrito-botao">Cadastrar-se</button></a>
+                </div>
+            </div>
+            <img class="cabecalho-imagem" src="logo1.jpg" alt="Imagem da Logo">
+        </section>
+
+        <section class="conteudo-secundario">
+            <h3 class="conteudo-secundario-titulo">O que ela faz por você?</h3>
+            <p class="conteudo-secundario-paragrafo">1. Cria um <strong>sistema de cadastro</strong> para coleta de dados.</p>
+            <p class="conteudo-secundario-paragrafo">2. Possuirá um <strong>sistema automático de classificação de usuários</strong> para facilitar a organização no banco de dados.</p>
+            <p class="conteudo-secundario-paragrafo">3. <strong>Sistema simplificado</strong>, para pessoas pouco familiarizadas com ambientes on-line.</p>
+        </section>
+    </main>
+
+    <footer class="rodape">
+      
+    </footer>
+
+    <script>
+        function toggleSenha() {
+            var senhaInput = document.getElementById("senha");
+            var mostrarSenhaBtn = document.getElementById("mostrarSenha");
+
+            if (senhaInput.type === "password") {
+                senhaInput.type = "text";
+                mostrarSenhaBtn.textContent = "Ocultar senha";
+            } else {
+                senhaInput.type = "password";
+                mostrarSenhaBtn.textContent = "Mostrar senha";
+            }
+        }
+    </script>
+</body>
+</html>

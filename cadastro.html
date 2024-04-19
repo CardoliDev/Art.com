@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style2.css">
+    <!-- Inclua a biblioteca Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.5/jquery.inputmask.min.js"></script>
+    
+    <!-- Inclua a biblioteca Bootstrap CSS (link temporário, substitua pelo link permanente) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+</head>
+<body>
+    <form action="index.html" method="post">
+        <!-- Adicione elementos para exibir as mensagens -->
+        <div id="mensagem-sucesso" class="mensagem"></div>
+        <div id="mensagem-erro" class="mensagem"></div>
+        <div id="formulario">
+
+        <label for="email">E-mail de login: *</label>
+        <input type="email" id="email" name="email" required placeholder="usuario@exemplo.com">
+        
+        <label for="senha">Senha: *</label>
+        <div class="senha-container">
+            <input type="password" id="senha" name="senha"
+            required placeholder="senha123">
+        </div>
+        
+        <label for="confirmaSenha">Confirmar Senha: *</label>
+        <div class="senha-container">
+            <input type="password" id="confirmaSenha" name="confirmaSenha" required placeholder="senha123">
+        </div>
+        
+        <label for="nome">Nome completo: *</label>
+        <input type="text" id="nome" name="nome" required placeholder="Asriel Dreemurr">
+        
+        <label for="cpf_cnpj_tipo">Selecione o tipo de documento: *</label>
+        <select id="cpf_cnpj_tipo" name="cpf_cnpj_tipo" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="cpf">CPF</option>
+            <option value="cnpj">CNPJ</option>
+        </select>
+        
+        <label for="cpf_cnpj">CPF ou CNPJ: *</label>
+        <input type="text" id="cpf_cnpj" name="cpf_cnpj" placeholder="Formato será aplicado automaticamente" required>
+
+        <label for="telefone">Telefone com DDD: *</label>
+        <input type="tel" id="telefone" name="telefone" placeholder="Ex: (11) 91234-5678" required>
+        
+        <label for="perfil">Tipo de perfil: *</label>
+        <select id="perfil" name="perfil" required>
+            <option value="" disabled selected>Selecione o tipo de perfil</option>
+            <option value="artista">Artista</option>
+            <option value="parecerista">Parecerista</option>
+            <option value="gestor">Gestor</option>
+        </select>
+
+        <label for="tipoConta">Tipo de Conta: *</label>
+        <select id="tipoConta" name="tipoConta" required>
+            <option value="" disabled selected>Selecione o tipo de conta</option>
+            <option value="corrente">Conta Corrente</option>
+            <option value="poupanca">Conta Poupança</option>
+        </select>
+        
+        <label for="numeroConta">Número da Conta: *</label>
+        <input type="text" id="numeroConta" name="numeroConta" required>
+        
+        
+        <label for="resumo">Sobre o projeto:</label>
+        <textarea id="resumo" name="resumo" rows="4"></textarea>
+    </div>
+        
+        <!-- Botão para mostrar e ocultar senha -->
+        <button class="botao" type="button" onclick="toggleSenha()">Mostrar Senha</button>
+        
+        <!-- Botão para cadastrar -->
+        <button class="botao" type="button" onclick="validarCampos()">Cadastrar</button>
+        <!-- Modifique o tipo do botão para "submit" para enviar o formulário -->
+        <button class="botao" type="submit">Login</button>
+    </form>
+    
+    <!-- Adicione a máscara para os campos de CPF ou CNPJ e telefone -->
+    <script>
+        // Aplica a máscara para o formato de CPF ou CNPJ
+        $(document).ready(function(){
+            $('#cpf_cnpj_tipo').change(function(){
+                var tipoDocumento = $(this).val();
+                var mascara = (tipoDocumento === 'cpf') ? '999.999.999-99' : '99.999.999/9999-99';
+                $('#cpf_cnpj').inputmask('remove');
+                $('#cpf_cnpj').inputmask(mascara);
+            });
+            
+            $("#telefone").inputmask({"mask": "(99) 99999-9999", "removeMaskOnSubmit": true});
+        });
+
+        // Função para validar os campos antes de exibir a mensagem
+        function validarCampos() {
+            var camposPreenchidos = true;
+
+            $('input, select, textarea').each(function() {
+                if ($(this).prop('required') && $(this).val() === "") {
+                    camposPreenchidos = false;
+                    return false; // Sai do loop ao encontrar um campo não preenchido
+                }
+            });
+
+            if (camposPreenchidos) {
+                // Simula um cadastro bem-sucedido
+                exibirMensagem(true);
+                // Adiciona a notificação
+                notificarCadastro();
+                // Exibe o modal Bootstrap
+                $('#modalSucesso').modal('show');
+            } else {
+                alert("Preencha todos os campos obrigatórios.");
+            }
+        }
+
+        // Função para exibir as mensagens
+        function exibirMensagem(sucesso) {
+            if (sucesso) {
+                $('#mensagem-sucesso').text('Cadastro realizado com sucesso!');
+                $('#mensagem-erro').text(''); // Limpa a mensagem de erro
+            } else {
+                $('#mensagem-erro').text('Erro ao cadastrar. Por favor, tente novamente.');
+                $('#mensagem-sucesso').text(''); // Limpa a mensagem de sucesso
+            }
+        }
+
+        // Função para alternar a visibilidade da senha
+        function toggleSenha() {
+            var senhaInput = document.getElementById('senha');
+            var confirmaSenhaInput = document.getElementById('confirmaSenha');
+            var mostrarSenhaBtn = document.querySelector('.botao');
+
+            if (senhaInput.type === 'password') {
+                senhaInput.type = 'text';
+                confirmaSenhaInput.type = 'text';
+                mostrarSenhaBtn.textContent = 'Ocultar Senha';
+            } else {
+                senhaInput.type = 'password';
+                confirmaSenhaInput.type = 'password';
+                mostrarSenhaBtn.textContent = 'Mostrar Senha';
+            }
+        }
+
+        // Função para notificar o usuário sobre o cadastro
+        function notificarCadastro() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === 'granted') {
+                        var options = {
+                            body: 'Seu cadastro foi realizado com sucesso!',
+                            icon: 'path/to/your/icon.png' // Substitua pelo caminho do seu ícone
+                        };
+                        var notification = new Notification('Cadastro Realizado', options);
+                    }
+                });
+            }
+        }
+    </script>
+
+    <!-- Adicione a máscara para o campo de telefone -->
+    <script>
+        // Aplica a máscara para o formato de telefone com DDD
+        $(document).ready(function(){
+            $("#telefone").inputmask({"mask": "(99) 99999-9999", "removeMaskOnSubmit": true});
+        });
+    </script>
+
+    <!-- Inclua a biblioteca Bootstrap JS (link temporário, substitua pelo link permanente) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        function validarCampos() {
+    var camposPreenchidos = true;
+
+    $('input, select, textarea').each(function() {
+        if ($(this).prop('required') && $(this).val() === "") {
+            camposPreenchidos = false;
+            return false; // Sai do loop ao encontrar um campo não preenchido
+        }
+    });
+
+    // Adicione a validação dos novos campos (número da conta e tipo de conta)
+    if ($('#numeroConta').prop('required') && $('#numeroConta').val() === "") {
+        camposPreenchidos = false;
+    }
+
+    if ($('#tipoConta').prop('required') && $('#tipoConta').val() === "") {
+        camposPreenchidos = false;
+    }
+
+    if (camposPreenchidos) {
+        // Simula um cadastro bem-sucedido
+        exibirMensagem(true);
+        // Adiciona a notificação
+        notificarCadastro();
+        // Exibe o modal Bootstrap
+        $('#modalSucesso').modal('show');
+    } else {
+        alert("Preencha todos os campos obrigatórios.");
+    }
+}
+    </script>
+
+    <!-- Modal de sucesso -->
+    <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSucessoLabel">Cadastro Realizado com Sucesso!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Seu cadastro foi realizado com sucesso!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
